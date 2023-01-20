@@ -8,11 +8,13 @@ app.use(express());
 
 const port = process.env.PORT||8000;
 
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:5173"
+}));
 
 var server = app.listen(port);
 
-const io = socket(server);
+const io = socket(server,{cors:{origin:"http://localhost:5173"}});
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username, roomname }) => {

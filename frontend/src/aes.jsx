@@ -1,4 +1,4 @@
-var aes256 = require("aes256");
+import aes256 from "aes256";
 var secret_key = "uI2ooxtwHeI6q69PS98fx9SWVGbpQohO";
 export const to_Encrypt = (text) => {
   var encrypted = aes256.encrypt(secret_key, text);

@@ -1,16 +1,16 @@
 import Chat from "./chat/chat";
 import Process from "./process/process";
-import Home from "./home/home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {useRoutes} from 'react-router';
+import { Routes,Route} from "react-router-dom";
 import "./app.scss";
-import React from "react";
+import React, { Suspense } from "react";
 import io from "socket.io-client";
-
-const socket = io.connect('/');
+import Homepage from "./home/home";
+const socket = io.connect('http://localhost:8000');
 
 function Appmain(props) {
   return (
-    <React.Fragment>
+    <>
       <div className="right">
         <Chat
           username={props.match.params.username}
@@ -21,22 +21,16 @@ function Appmain(props) {
       <div className="left">
         <Process />
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route path="/" exact>
-            <Home socket={socket} />
-          </Route>
-          <Route path="/chat/:roomname/:username" component={Appmain} />
-        </Switch>
-      </div>
-    </Router>
+    <Routes>
+      <Route exact path="/" element={<Homepage />}/>
+      <Route exact path="/chat/:roomname/:username" element={<Appmain />}/>
+    </Routes>
   );
 }
 
